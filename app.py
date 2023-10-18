@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify
 from folium import folium
 
+from utils.get_initial_restaurants import get_initial_restaurants
 from utils.get_location_coordinates import get_location_coordinates
 from utils.update_map import update_map
 from utils.update_restaurants import update_restaurants
@@ -16,7 +17,7 @@ def index():
 
     # Convert the map to HTML string
     map_html = m._repr_html_()
-    return render_template('index.html', tastes=[], map_html=map_html)
+    return render_template('index.html', tastes=[' ']*10, map_html=map_html)
 
 
 @app.route('/taste-fusion', methods=['POST'])
@@ -52,6 +53,41 @@ def taste_fusion_clicked():
 
     # generate extra tastes tags based on the current list of restaurants
     tastes = generate_tastes(restaurant_ids=updated_restaurant_ids, mock=mock)
+    return jsonify({"tastes": tastes, "map_html": map_html})
+
+
+@app.route('/search-start', methods=['POST'])
+def search_button_clicked():
+    """
+    When the search button is clicked. what happens?
+
+    The program will fetch the following info:
+        1. location center
+        2. location pool
+        3. fetch restaurant info from database
+    The program will calculate the following:
+        1. get a ranked list of restaurants in the area
+        2. Generate taste tags and initialize the taste buttons.
+        3. update the map html
+
+    :return:
+    """
+    print('Search button clicked!')
+    # get current tastes.
+    # get current restaurant ids.
+    mock = True
+    search_radius = None  # todo - should get it from the front end.
+    center = None  # todo - retrieve center from the front end
+    # update the restaurant ids list based on the current taste votes and the current pool of restaurants.
+    restaurant_ids = get_initial_restaurants(center = center, search_radius = search_radius, mock=mock)
+    # retrieve the restaurant location coordinates.
+    updated_restaurant_coordinates = get_location_coordinates(restaurant_ids=restaurant_ids, mock=mock)
+
+    # generate the updated map_html from folium
+    map_html = update_map(restaurant_coordinates=updated_restaurant_coordinates, mock=False)
+
+    # generate tastes tags based on the current list of restaurants
+    tastes = generate_tastes(restaurant_ids=restaurant_ids, mock=mock)
     return jsonify({"tastes": tastes, "map_html": map_html})
 
 
