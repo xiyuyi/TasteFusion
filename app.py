@@ -107,5 +107,22 @@ def address_input():
     return jsonify({"map_html": map_html})
 
 
+@app.route('/radius-input', methods=['POST'])
+def radius_input():
+    print('radius input route...')
+    # Get the address and the radius from the request
+    address = request.json.get('address')
+    radius = request.json.get('radius')
+    print('address input: '+address)
+    print('radius input: '+radius+' miles')
+
+    coords = get_coords_from_address_text(address=address, mock=False)
+
+    # Process the address to get updated map HTML (pseudo-logic here, replace with actual logic)
+    map_html = center_map(coords=coords, radius=radius)
+    print('ready for map update')
+    return jsonify({"map_html": map_html})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
