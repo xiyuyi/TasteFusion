@@ -82,8 +82,15 @@ def search_button_clicked():
     # get current tastes.
     # get current restaurant ids.
     mock = True
-    search_radius = None  # todo - should get it from the front end.
-    center = None  # todo - retrieve center from the front end
+    # Get the address and the radius from the request
+    address = request.json.get('address')
+    rad = request.json.get('radius')
+    if rad:
+        search_radius = int(rad)
+    else:
+        search_radius = 10  # default searching radius is 10 miles.
+    center = get_coords_from_address_text(address=address, mock=False)
+
     # update the restaurant ids list based on the current taste votes and the current pool of restaurants.
     restaurant_ids = get_initial_restaurants(center = center, search_radius = search_radius, mock=mock)
     # retrieve the restaurant location coordinates.

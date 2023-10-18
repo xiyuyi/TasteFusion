@@ -1,8 +1,22 @@
 var searchButton = document.getElementById('searchButton');
 var tasteContainer = document.querySelector('.taste-buttons-container');
+var textLocation = document.getElementById('textLocation');
+var textRadius = document.getElementById('textRadius');
 
 searchButton.addEventListener('click', function() {
-    fetch('/search-start', { method: 'POST' })
+    const location = textLocation.value;
+    const radius = textRadius.value
+
+    fetch('/search-start', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            address: location,
+            radius: radius
+        })
+    })
     .then(response => response.json())
     .then(data => {
         // Dynamically update the map
