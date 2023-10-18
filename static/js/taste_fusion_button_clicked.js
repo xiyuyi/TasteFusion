@@ -39,6 +39,9 @@ tasteFusionButton.addEventListener('click', function() {
             // Append the entire row to the tasteContainer
             tasteContainer.appendChild(tasteRow);
         });
+
+        // Bind the event listeners to the newly created taste buttons
+        bindTasteButtonEvents();
     })
     .catch(error => {
         console.error('Error:', error);
