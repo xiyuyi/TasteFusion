@@ -6,9 +6,12 @@ def get_coords_from_address_text(address: str = None, mock=True):
     if address == 'San Francisco':
         coords = [37.7749, -122.4194]
         print('address is now set to San Francisco, update the coords')
-    if address == 'Los Angeles':
+    elif address == 'Los Angeles':
         coords = [34.0522, -118.2437]
         print('address is now set to Los Angeles, update the coords')
+    else:
+        print('address not available, switched to mock mode')
+        mock = True
 
     if mock:
         san_francisco_coords = [37.7749, -122.4194]
