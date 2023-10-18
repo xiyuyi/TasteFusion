@@ -38,10 +38,14 @@ def taste_fusion_clicked():
     :return:
     """
     print('taste fusion button clicked!')
-    # get current tastes.
+    # Get the taste data from the request payload
+    tastes_data = request.json.get('tastes', [])
+
+    # Separate the taste labels and values for further processing
+    taste_votes = {taste['label']: taste['value'] for taste in tastes_data}
+
     # get current restaurant ids.
     mock = True
-    taste_votes = []  # todo, should retrieve data from the frontend.
     curr_ids = []  # todo, should retrieve data from the front end.
     # update the restaurant ids list based on the current taste votes and the current pool of restaurants.
     updated_restaurant_ids = update_restaurants(taste_votes=taste_votes,

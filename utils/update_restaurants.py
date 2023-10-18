@@ -8,5 +8,9 @@ def update_restaurants(taste_votes, current_restaurant_ids, mock=False):
     :param current_restaurant_ids:
     :return:
     """
+    print('current_taste_votes:')
+    for k, v in taste_votes.items():
+        print(f"{k}: {v}")
+
     restaurant_ids = []
     return restaurant_ids

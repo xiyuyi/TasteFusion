@@ -2,7 +2,27 @@ var tasteFusionButton = document.getElementById('tasteFusionButton');
 var tasteContainer = document.querySelector('.taste-buttons-container');
 
 tasteFusionButton.addEventListener('click', function() {
-    fetch('/taste-fusion', { method: 'POST' })
+    // Collect current labels and values of taste buttons using the taste rows
+    let tasteData = [];
+
+    const tasteRows = tasteContainer.querySelectorAll('.taste-row');
+    tasteRows.forEach((row) => {
+        const tasteButton = row.querySelector('.btn');
+        const tasteValueSpan = row.querySelector('.taste-text');
+
+        tasteData.push({
+            label: tasteButton.textContent,
+            value: tasteValueSpan.textContent
+        });
+    });
+
+    fetch('/taste-fusion', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ tastes: tasteData })  // Send the tastes as part of the request payload
+    })
     .then(response => response.json())
     .then(data => {
         // Dynamically update the map
