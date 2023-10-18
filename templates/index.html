@@ -32,6 +32,7 @@
             cursor: pointer;
             margin-bottom: 2px;
             width: 200px;
+            height: 30px;
             text-align: left;
         }
         .btn:hover {
@@ -44,7 +45,7 @@
         .taste-buttons-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px; /* Gap between rows */
+            gap: 5px 30px; /* Gap between rows */
         }
 
         .taste-row {
@@ -53,28 +54,29 @@
             display: flex;
             align-items: center; /* Vertically align items */
             margin-bottom: 2px;
-            width: calc(50% - 10px); /* Assuming a gap of 20px between rows, each row takes 50% minus half of that gap */
+            width: calc(40% - 10px); /* Assuming a gap of 20px between rows, each row takes 50% minus half of that gap */
+            height: 35px;
         }
         .btn-minus {
             display: inline-block;
-            width: 30px;
+            width: 40px;
             height: 30px;
             background-color: red;
             color: white;
-            border-radius: 50%; /* This makes it round */
+            border-radius: 80%; /* This makes it round */
             border: none;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
             line-height: 30px; /* Vertical centering */
-            margin-left: 10px;
+            margin-left: 5px;
         }
         .btn-minus:hover {
             background-color: darkred;
         }
         .taste-text {
             flex: 1;
-            margin-left: 10px;
+            margin-left: 0px;
         }
         .taste_fusion_btn {
             display: inline-block;
@@ -114,15 +116,18 @@
             <p>Where?</p>
             <input type="text" class="input" placeholder="This is an input text box">
         </div>
+
         <div class="input-container">
             <p>In what range? (input a number in miles)</p>
-            <input type="text" class="input" placeholder="example: 5 (search with a radius of 5 miles)">
+            <input type="text" class="input" placeholder="example: input 5 would search within a radius range of 5 miles">
             <span>Miles</span>
         </div>
+
         <div class="input-container">
-            <button id="tasteFusionButton" class="taste_fusion_btn">Taste Fusion!</button>
+            <button id="searchButton" class="taste_fusion_btn">Search</button>
         </div>
-            <p>Tastes</p>
+
+        <p>Vote on the tastes below!</p>
         <div class="taste-buttons-container">
             {% for taste in tastes %}
                 <div class="taste-row">
@@ -133,12 +138,14 @@
             {% endfor %}
         </div>
 
-
-
-
+        <div class="input-container">
+            <button id="tasteFusionButton" class="taste_fusion_btn">Taste Fusion!</button>
+        </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/search_button_clicked.js') }}"></script>
     <script src="{{ url_for('static', filename='js/taste_button_clicked.js') }}"></script>
     <script src="{{ url_for('static', filename='js/taste_fusion_button_clicked.js') }}"></script>
+
 </body>
 </html>
