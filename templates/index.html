@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webpage Layout</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .map-container {
+            flex: 2;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-right: 20px;
+        }
+        .controls-container {
+            flex: 1;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 2px;
+            width: 200px;
+            text-align: left;
+        }
+        .btn:hover {
+            background-color: #0056b3; /* Slightly darker blue when hovered */
+        }
+        .btn:active {
+            background-color: #003d7a; /* Even darker blue when clicked */
+            transform: scale(0.95);    /* Slight shrink effect when clicked */
+        }
+        .taste-buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Gap between rows */
+        }
+
+        .taste-row {
+            justify-content: start;
+            align-items: center;
+            display: flex;
+            align-items: center; /* Vertically align items */
+            margin-bottom: 2px;
+            width: calc(50% - 10px); /* Assuming a gap of 20px between rows, each row takes 50% minus half of that gap */
+        }
+        .btn-minus {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            color: white;
+            border-radius: 50%; /* This makes it round */
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            line-height: 30px; /* Vertical centering */
+            margin-left: 10px;
+        }
+        .btn-minus:hover {
+            background-color: darkred;
+        }
+        .taste-text {
+            flex: 1;
+            margin-left: 10px;
+        }
+        .taste_fusion_btn {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 2px;
+            width: 200px;
+        }
+        .taste_fusion_btn:hover {
+            background-color: #0056b3; /* Slightly darker blue when hovered */
+        }
+        .taste_fusion_btn:active {
+            background-color: #003d7a; /* Even darker blue when clicked */
+            transform: scale(0.95);    /* Slight shrink effect when clicked */
+        }
+        .input {
+            width: 300px;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        .taste-buttons-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <p>Here is the map</p>
+        {{ map_html | safe }}
+    </div>
+    <div class="controls-container">
+        <div class="input-container">
+            <p>Where?</p>
+            <input type="text" class="input" placeholder="This is an input text box">
+        </div>
+        <div class="input-container">
+            <p>In what range? (input a number in miles)</p>
+            <input type="text" class="input" placeholder="example: 5 (search with a radius of 5 miles)">
+            <span>Miles</span>
+        </div>
+        <div class="input-container">
+            <button id="tasteFusionButton" class="taste_fusion_btn">Taste Fusion!</button>
+        </div>
+            <p>Tastes</p>
+        <div class="taste-buttons-container">
+            {% for taste in tastes %}
+                <div class="taste-row">
+                    <button class="btn">{{ taste }}</button>
+                    <span class="taste-text">0</span>
+                    <button class="btn-minus">X</button>
+                </div>
+            {% endfor %}
+        </div>
+
+
+
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/taste_fusion_button_clicked.js') }}"></script>
+</body>
+</html>
