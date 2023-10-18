@@ -1,6 +1,8 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from folium import folium
 
+from utils.center_map import center_map
+from utils.get_coords_from_addresstext import get_coords_from_address_text
 from utils.get_initial_restaurants import get_initial_restaurants
 from utils.get_location_coordinates import get_location_coordinates
 from utils.update_map import update_map
@@ -89,6 +91,20 @@ def search_button_clicked():
     # generate tastes tags based on the current list of restaurants
     tastes = generate_tastes(restaurant_ids=restaurant_ids, mock=mock)
     return jsonify({"tastes": tastes, "map_html": map_html})
+
+
+@app.route('/address-input', methods=['POST'])
+def address_input():
+    # Get the address from the request
+    address = request.json.get('address')
+    print('address input: '+address)
+
+    coords = get_coords_from_address_text(address=address, mock=False)
+
+    # Process the address to get updated map HTML (pseudo-logic here, replace with actual logic)
+    map_html = center_map(coords)
+    print('ready for map update')
+    return jsonify({"map_html": map_html})
 
 
 if __name__ == '__main__':
