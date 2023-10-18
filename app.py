@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # Create a folium map centered around a location
+    # Create a folium map centered around the initial location San Francisco
     m = folium.Map(location=[37.7749, -122.4194], zoom_start=13)
 
     # Convert the map to HTML string
@@ -41,7 +41,7 @@ def taste_fusion_clicked():
     # Get the taste data from the request payload
     tastes_data = request.json.get('tastes', [])
 
-    # Separate the taste labels and values for further processing
+    # Separate the taste labels and votes for further processing
     taste_votes = {taste['label']: taste['value'] for taste in tastes_data}
 
     # get current restaurant ids.
@@ -82,15 +82,28 @@ def search_button_clicked():
     # get current tastes.
     # get current restaurant ids.
     mock = True
-    search_radius = None  # todo - should get it from the front end.
-    center = None  # todo - retrieve center from the front end
+    # Get the address and the radius from the request
+    address = request.json.get('address')
+    rad = request.json.get('radius')
+    if rad:
+        search_radius = int(rad)
+    else:
+        search_radius = 10  # default searching radius is 10 miles.
+    center = get_coords_from_address_text(address=address, mock=False)
+
     # update the restaurant ids list based on the current taste votes and the current pool of restaurants.
-    restaurant_ids = get_initial_restaurants(center = center, search_radius = search_radius, mock=mock)
+    restaurant_ids = get_initial_restaurants(center=center,
+                                             search_radius=search_radius,
+                                             mock=mock)
+
     # retrieve the restaurant location coordinates.
-    updated_restaurant_coordinates = get_location_coordinates(restaurant_ids=restaurant_ids, mock=mock)
+    updated_restaurant_coordinates = \
+        get_location_coordinates(restaurant_ids=restaurant_ids,
+                                 mock=mock)
 
     # generate the updated map_html from folium
-    map_html = update_map(restaurant_coordinates=updated_restaurant_coordinates, mock=False)
+    map_html = update_map(restaurant_coordinates=updated_restaurant_coordinates,
+                          mock=False)
 
     # generate tastes tags based on the current list of restaurants
     tastes = generate_tastes(restaurant_ids=restaurant_ids, mock=mock)
