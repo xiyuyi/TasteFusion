@@ -10,4 +10,3 @@ restaurant_df = get_initial_restaurants(center=center,
                                         datapath=path_to_data_folder)
 
 tastes = generate_tastes(restaurant_df=restaurant_df, mock=False)
-1;
