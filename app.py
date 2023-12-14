@@ -1,21 +1,21 @@
 from flask import Flask, render_template, jsonify, request
 from folium import folium
 
-from utils.center_map import center_map
-from utils.get_coords_from_addresstext import get_coords_from_address_text
-from utils.get_initial_restaurants import get_initial_restaurants
-from utils.get_location_coordinates import get_location_coordinates
-from utils.update_map import update_map
-from utils.update_restaurants import update_restaurants
-from utils.update_tastes import generate_tastes
+from tastefusion.utils.center_map import center_map
+from tastefusion.utils.get_coords_from_addresstext import get_coords_from_address_text
+from tastefusion.utils.get_initial_restaurants import get_initial_restaurants
+from tastefusion.utils.get_location_coordinates import get_location_coordinates
+from tastefusion.utils.update_map import update_map
+from tastefusion.utils.update_restaurants import update_restaurants
+from tastefusion.utils.update_tastes import generate_tastes
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    # Create a folium map centered around the initial location San Francisco
-    m = folium.Map(location=[37.7749, -122.4194], zoom_start=13)
+    # Create a folium map centered around the initial location Reno
+    m = folium.Map(location=[39.5296, -119.8138], zoom_start=13)
 
     # Convert the map to HTML string
     map_html = m._repr_html_()

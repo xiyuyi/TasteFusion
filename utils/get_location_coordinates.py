@@ -1,4 +1,4 @@
-from mock_utils.mock_get_location_coordinates import mock_retrieve_coords
+from tastefusion.mock_utils.mock_get_location_coordinates import mock_retrieve_coords
 
 
 def get_location_coordinates(restaurant_ids: list, mock=False):
@@ -12,7 +12,8 @@ def get_location_coordinates(restaurant_ids: list, mock=False):
     """
     coords=[]
     if mock:
-        """ In mock mode, we'll randomly generate 20 location coordiantes in San Francisco"""
+        """ In mock mode, we'll randomly generate 20 location coordiantes in Reno"""
         san_francisco_coords = [37.7749, -122.4194]
-        coords = [mock_retrieve_coords(*san_francisco_coords, 1) for _ in range(10)]
+        reno_coords = [39.5296, -119.8138]
+        coords = [mock_retrieve_coords(*reno_coords, 1) for _ in range(10)]
     return coords

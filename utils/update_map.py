@@ -1,7 +1,7 @@
 import numpy as np
 import folium
 
-from mock_utils.mock_get_location_coordinates import mock_retrieve_coords
+from tastefusion.mock_utils.mock_get_location_coordinates import mock_retrieve_coords
 
 
 def update_map(restaurant_coordinates:list = None, mock=False):
