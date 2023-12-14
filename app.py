@@ -23,7 +23,7 @@ def index():
 
     # Convert the map to HTML string
     map_html = m._repr_html_()
-    return render_template('index.html', tastes=[' ']*10, map_html=map_html)
+    return render_template('index.html', tastes=[' ']*14, map_html=map_html)
 
 
 @app.route('/taste-fusion', methods=['POST'])
@@ -62,8 +62,10 @@ def taste_fusion_clicked():
     map_html = update_map(restaurant_coordinates=updated_restaurant_coordinates, mock=False)
 
     # generate extra tastes tags based on the current list of restaurants
-    tastes = generate_tastes(restaurant_ids=updated_restaurant_ids, mock=mock)
-    return jsonify({"tastes": tastes, "map_html": map_html})
+    tastes = generate_tastes(restaurant_df=updated_restaurant_ids, mock=mock)
+
+    # now update the webpage. use only to 14 taste tags
+    return jsonify({"tastes": tastes[:14], "map_html": map_html})
 
 
 @app.route('/search-start', methods=['POST'])
@@ -104,14 +106,16 @@ def search_button_clicked():
     updated_restaurant_coordinates = \
         get_location_coordinates(restaurant_df=restaurants_df,
                                  mock=False)
-    
+
     # generate the updated map_html from folium
     map_html = update_map(restaurant_coordinates=updated_restaurant_coordinates,
                           mock=False)
 
     # generate tastes tags based on the current list of restaurants
-    tastes = generate_tastes(restaurant_ids=restaurants_df, mock=mock)  # todo - implement tastes tag generation
-    return jsonify({"tastes": tastes, "map_html": map_html})
+    tastes = generate_tastes(restaurant_df=restaurants_df, mock=False)
+    
+    # now update the webpage. use only to 14 taste tags
+    return jsonify({"tastes": tastes[:14], "map_html": map_html})
 
 
 @app.route('/address-input', methods=['POST'])
