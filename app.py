@@ -1,5 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from folium import folium
+import socket
+import os
 
 from tastefusion.utils.center_map import center_map
 from tastefusion.utils.get_coords_from_addresstext import get_coords_from_address_text
@@ -8,6 +10,8 @@ from tastefusion.utils.get_location_coordinates import get_location_coordinates
 from tastefusion.utils.update_map import update_map
 from tastefusion.utils.update_restaurants import update_restaurants
 from tastefusion.utils.update_tastes import generate_tastes
+
+path_to_data_folder = os.path.join(os.path.dirname(__file__), 'data')
 
 app = Flask(__name__)
 
@@ -52,7 +56,7 @@ def taste_fusion_clicked():
                                                 current_restaurant_ids=curr_ids,
                                                 mock=mock)
     # retrieve the restaurant location coordinates.
-    updated_restaurant_coordinates = get_location_coordinates(restaurant_ids=updated_restaurant_ids, mock=mock)
+    updated_restaurant_coordinates = get_location_coordinates(restaurant_df=updated_restaurant_ids, mock=mock)
 
     # generate the updated map_html from folium
     map_html = update_map(restaurant_coordinates=updated_restaurant_coordinates, mock=False)
@@ -86,27 +90,27 @@ def search_button_clicked():
     address = request.json.get('address')
     rad = request.json.get('radius')
     if rad:
-        search_radius = int(rad)
+        search_radius = float(rad)
     else:
         search_radius = 10  # default searching radius is 10 miles.
-    center = get_coords_from_address_text(address=address, mock=False)
+    center = get_coords_from_address_text(address=address, mock=mock)
 
-    # update the restaurant ids list based on the current taste votes and the current pool of restaurants.
-    restaurant_ids = get_initial_restaurants(center=center,
+    # retrieve the dataframe about the current restaurant pool
+    restaurants_df = get_initial_restaurants(center=center,
                                              search_radius=search_radius,
-                                             mock=mock)
-
+                                             mock=mock,
+                                             datapath=path_to_data_folder)
     # retrieve the restaurant location coordinates.
     updated_restaurant_coordinates = \
-        get_location_coordinates(restaurant_ids=restaurant_ids,
-                                 mock=mock)
-
+        get_location_coordinates(restaurant_df=restaurants_df,
+                                 mock=False)
+    
     # generate the updated map_html from folium
     map_html = update_map(restaurant_coordinates=updated_restaurant_coordinates,
                           mock=False)
 
     # generate tastes tags based on the current list of restaurants
-    tastes = generate_tastes(restaurant_ids=restaurant_ids, mock=mock)
+    tastes = generate_tastes(restaurant_ids=restaurants_df, mock=mock)  # todo - implement tastes tag generation
     return jsonify({"tastes": tastes, "map_html": map_html})
 
 
@@ -139,8 +143,6 @@ def radius_input():
     map_html = center_map(coords=coords, radius=radius)
     print('ready for map update')
     return jsonify({"map_html": map_html})
-
-import socket
 
 
 def find_free_port():
