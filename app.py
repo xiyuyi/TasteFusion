@@ -140,6 +140,17 @@ def radius_input():
     print('ready for map update')
     return jsonify({"map_html": map_html})
 
+import socket
+
+
+def find_free_port():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('localhost', 0))
+    port = s.getsockname()[1]
+    s.close()
+    return port
+
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = find_free_port()
+    app.run(debug=True, port=port)
