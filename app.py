@@ -17,6 +17,11 @@ path_to_data_folder = os.path.join(os.path.dirname(__file__), 'data')
 app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
+class TasteFusion:
+    def __init__(self):
+        self.app = Flask(__name__)
+        self.configure_routes()
+        self.current_restaurant_ids = []
 
 @app.route('/')
 def index():
@@ -27,19 +32,22 @@ def index():
     map_html = m._repr_html_()
     return render_template('index.html', tastes=[' '] * 14, map_html=map_html)
 
+            # Convert the map to HTML string
+            map_html = m._repr_html_()
+            return render_template('index.html', tastes=[' '] * 10, map_html=map_html)
 
-@app.route('/taste-fusion', methods=['POST'])
-def taste_fusion_clicked():
-    """
-    When the taste-fusion button is clicked. what happens?
+        @app.route('/taste-fusion', methods=['POST'])
+        def taste_fusion_clicked():
+            """
+            When the taste-fusion button is clicked. what happens?
 
-    The program will take in the following info:
-        1. The vote result of the existing tastes
-        2. Current pool of restaurants and their information
-    The program will calculate the following:
-        1. Narrow down the pool of restaurants.
-        2. Generate new taste tags and update the taste buttons.
-        3. update the map html
+            The program will take in the following info:
+                1. The vote result of the existing tastes
+                2. Current pool of restaurants and their information
+            The program will calculate the following:
+                1. Narrow down the pool of restaurants.
+                2. Generate new taste tags and update the taste buttons.
+                3. update the map html
 
     :return:
     """
@@ -187,3 +195,4 @@ def find_free_port():
 if __name__ == '__main__':
     port = find_free_port()
     app.run(debug=True, port=port)
+
