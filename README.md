@@ -12,7 +12,7 @@ Imagine being on a multi-day ski trip at Lake Tahoe with a group of friends, whe
 2. run the app.py script.
 <img width="465" alt="Screen Shot 2023-12-15 at 9 12 13 AM" src="https://github.com/xiyuyi/TasteFusion/assets/8964244/d24d73d3-2777-4f87-a1f7-c924052638b7">
 
-copy-paste the "http://127.0.0.1:64630" to see the webpage on debug mode.
+In this case, copy-paste the "http://127.0.0.1:64630" to see the webpage on debug mode. 
 
 3. Open the webpage with the provided port and start to explore!
 
