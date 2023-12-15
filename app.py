@@ -79,8 +79,8 @@ def taste_fusion_clicked():
     # generate the updated map_html from folium
     map_html \
         = update_map(restaurant_coordinates=updated_restaurant_coordinates,
+                     filtered_restaurants_df=filtered_restaurants_df,
                      mock=False)
-
     # generate extra tastes tags based on the current list of restaurants
     tastes = generate_tastes(restaurant_df=filtered_restaurants_df,
                              mock=False,

@@ -36,5 +36,5 @@ def update_restaurants(taste_votes=None,
     top_n = max(min(len(df)-8, 50), 5)
     print('top_n = '+str(top_n))
     output = df.head(top_n)
-    print(output[['business_id','10 tags for food categories']])
+    print(output[['business_id', '10 tags for food categories']])
     return output
