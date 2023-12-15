@@ -1,6 +1,6 @@
 import folium
 
-from utils.get_zoom_from_radius import get_zoom_from_radius
+from tastefusion.utils.get_zoom_from_radius import get_zoom_from_radius
 
 
 def center_map(coords: list = None, radius=None):

@@ -1,2 +1,5 @@
 **/__pycache__/
 .idea
+.DS_store
+**/data/
+**/df_database/

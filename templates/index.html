@@ -25,14 +25,14 @@
         .btn {
             display: inline-block;
             margin-right: 10px;
-            padding: 10px 20px;
+            padding: 15px 20px;
             border: none;
             background-color: #007BFF;
             color: white;
             cursor: pointer;
             margin-bottom: 2px;
             width: 200px;
-            height: 30px;
+            height: 50px;
             text-align: left;
         }
         .btn:hover {
@@ -45,7 +45,7 @@
         .taste-buttons-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px 30px; /* Gap between rows */
+            gap: 5px 50px; /* Gap between rows */
         }
 
         .taste-row {
@@ -55,7 +55,7 @@
             align-items: center; /* Vertically align items */
             margin-bottom: 2px;
             width: calc(40% - 10px); /* Assuming a gap of 20px between rows, each row takes 50% minus half of that gap */
-            height: 35px;
+            height: 55px;
         }
         .btn-minus {
             display: inline-block;
@@ -114,17 +114,17 @@
     <div class="controls-container">
         <div class="input-container">
             <p>Where?</p>
-            <input id="textLocation" type="text" class="input" placeholder="Type in the address here.">
+            <input id="textLocation" type="text" class="input" placeholder="Type in the address here (type 'Reno').">
         </div>
 
         <div class="input-container">
             <p>In what range? (input a number in miles)</p>
-            <input id="textRadius" type="text" class="input" placeholder="example: input 5 would search within a radius range of 5 miles">
+            <input id="textRadius" type="text" class="input" placeholder="type 0.8 to search within a range of 0.8 miles">
             <span>Miles</span>
         </div>
 
         <div class="input-container">
-            <button id="searchButton" class="taste_fusion_btn">Search</button>
+            <button id="searchButton" class="taste_fusion_btn">Search (click to startover)</button>
         </div>
 
         <p>Vote on the tastes below!</p>
