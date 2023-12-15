@@ -26,7 +26,7 @@ tasteFusionButton.addEventListener('click', function() {
     .then(response => response.json())
     .then(data => {
         // Dynamically update the map
-        document.querySelector('.map-container').innerHTML = data.map_html;
+        document.querySelector('.map-container').innerHTML = "<p>TasteFusion</p>"+data.map_html;
 
         // Clear existing tastes
         tasteContainer.innerHTML = '';
