@@ -1,5 +1,5 @@
 ## TasteFusion
-This is a capstone project for The Data Incubator (TDI) fellowship program.
+This is my capstone project for The Data Incubator (TDI) fellowship program.
 <img width="1602" alt="Screen Shot 2023-12-15 at 8 49 05 AM" src="https://github.com/xiyuyi/TasteFusion/assets/8964244/21778b74-721b-42cf-8720-a81c9b0056b9">
 
 Imagine being on a multi-day ski trip at Lake Tahoe with a group of friends, where the task of finding a restaurant that suits everyone's tastes becomes a recurring challenge. Reno, located near Lake Tahoe, boasts a diverse array of dining options. However, the endeavor of selecting a restaurant that accommodates everyone's preferences can still be quite tedious. This is where TasteFushion comes into play, offering a solution to simplify the process. We meticulously assessed over 1600 restaurants in Reno, distilling essential features that you can use to involve your friends in the decision-making process. Our interactive map enables you to explore the city's dining establishments, allowing you to click on markers to access restaurant details. The voting system is designed to be flexible and iterative, allowing you to progressively narrow down your choices, streamlining the decision-making process. Bon appétit and enjoy your dining experience!
