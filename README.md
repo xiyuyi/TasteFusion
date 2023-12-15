@@ -19,3 +19,5 @@ copy-paste the "http://127.0.0.1:64630" to see the webpage on debug mode.
 ### Technical Details
 1. This work uses the "Yelp Dataset" from Kaggle (https://www.kaggle.com/datasets/yelp-dataset/yelp-dataset).
 2. Exploratory analyses are shown in the notebooks folder.
+
+[watch this demo](https://www.youtube.com/watch?v=z_mnDY7JdFg)
