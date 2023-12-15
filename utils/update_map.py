@@ -54,7 +54,7 @@ def update_map(restaurant_coordinates:list = None,
             text = f"""
             <div style="font-family: Arial, sans-serif; margin: 10px;">
                 <strong>NAME: {name}</strong><br><br>
-                <strong>Recommended foods:</strong><br>
+                <strong>Recommendations (categories/foods):</strong><br>
                 {rec_foods[0][0]}<br>
                 {rec_foods[0][1]}<br>
                 {rec_foods[0][2]}<br><br>
