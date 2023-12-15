@@ -49,7 +49,6 @@ def taste_fusion_clicked():
 
     # Separate the taste labels and votes for further processing
     taste_votes = {taste['label']: taste['value'] for taste in tastes_data}
-    print(taste_votes)
     print(type(taste_votes))
     restaurants_df = cache.get('restaurants_df')
     tastes = cache.get('tastes')
@@ -57,14 +56,19 @@ def taste_fusion_clicked():
     filtered_restaurants_df = cache.get('filtered_restaurants_df')
 
     if initial_search:
+        print('this is the initial search')
         current_restaurant_df = restaurants_df
+        cache.set('initial_search', False)
     else:
+        print('update current restaurant_df by the filtered one')
         current_restaurant_df = filtered_restaurants_df
+        print('length of current_restaurant_df = '+str(len(current_restaurant_df)))
 
     # update the restaurant dataframe list based on the current taste votes and the current pool of restaurants.
     filtered_restaurants_df = update_restaurants(taste_votes=taste_votes,
                                                  current_restaurant_df=current_restaurant_df,
                                                  mock=False)
+    print('after filtered_restaurans_df, length is '+str(len(filtered_restaurants_df)))
     cache.set('filtered_restaurants_df', filtered_restaurants_df)
 
     # retrieve the restaurant location coordinates.
@@ -78,7 +82,10 @@ def taste_fusion_clicked():
                      mock=False)
 
     # generate extra tastes tags based on the current list of restaurants
-    tastes = generate_tastes(restaurant_df=filtered_restaurants_df, mock=False)
+    tastes = generate_tastes(restaurant_df=filtered_restaurants_df,
+                             mock=False,
+                             existing_taste_votes=taste_votes,
+                             initial_search=False)
 
     # now update the webpage. use only to 14 taste tags
     return jsonify({"tastes": tastes[:14], "map_html": map_html})

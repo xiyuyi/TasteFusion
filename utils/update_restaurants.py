@@ -8,7 +8,7 @@ def calculate_score(votes, tags_list):
 def update_restaurants(taste_votes=None,
                        current_restaurant_df=None,
                        mock=False,
-                       top_n = 30):
+                       d_top_n = -10):
     """
     This function takes inthe current taste_votes and the current pool of restaurants,
     and return a new list of suggested restaurants, and generate new taste tags.
@@ -33,4 +33,6 @@ def update_restaurants(taste_votes=None,
     # select the top_n or all, sorted restaurants
     df = current_restaurant_df.sort_values(by='votes', ascending=False)
     print(df.shape)
+    top_n = max(min(len(df)-8, 50), 5)
+    print('top_n = '+str(top_n))
     return df.head(top_n)

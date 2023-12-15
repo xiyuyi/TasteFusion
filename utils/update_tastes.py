@@ -30,7 +30,7 @@ def generate_tastes(restaurant_df: pd.DataFrame = None, mock=True,
             tags = [r[0] for r in ranked_words]
         else:
             # update the taste tags with the given initial tastes, votes.
-
+            print('update_tasetes - not initial search')
             # take top 4 existing votes
             top_four_keys = sorted(existing_taste_votes, key=existing_taste_votes.get, reverse=True)[:4]
             # take 5 most common dishes from the current pool
@@ -38,7 +38,7 @@ def generate_tastes(restaurant_df: pd.DataFrame = None, mock=True,
             y = [a for sublist in x for a in sublist]
             word_counts = Counter(y)
             ranked_words = word_counts.most_common()
-            tags = top_four_keys + [r[0] for r in ranked_words]
+            tags = [r[0] for r in ranked_words]
 
             # recalculate votes ( as cumulative votes)
 
