@@ -17,10 +17,12 @@ path_to_data_folder = os.path.join(os.path.dirname(__file__), 'data')
 app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
+
 def __init__(self):
     self.app = Flask(__name__)
     self.configure_routes()
     self.current_restaurant_ids = []
+
 
 @app.route('/')
 def index():
@@ -30,6 +32,7 @@ def index():
     # Convert the map to HTML string
     map_html = m._repr_html_()
     return render_template('index.html', tastes=[' '] * 14, map_html=map_html)
+
 
 @app.route('/taste-fusion', methods=['POST'])
 def taste_fusion_clicked():
@@ -65,13 +68,13 @@ def taste_fusion_clicked():
     else:
         print('update current restaurant_df by the filtered one')
         current_restaurant_df = filtered_restaurants_df
-        print('length of current_restaurant_df = '+str(len(current_restaurant_df)))
+        print('length of current_restaurant_df = ' + str(len(current_restaurant_df)))
 
     # update the restaurant dataframe list based on the current taste votes and the current pool of restaurants.
     filtered_restaurants_df = update_restaurants(taste_votes=taste_votes,
                                                  current_restaurant_df=current_restaurant_df,
                                                  mock=False)
-    print('after filtered_restaurans_df, length is '+str(len(filtered_restaurants_df)))
+    print('after filtered_restaurans_df, length is ' + str(len(filtered_restaurants_df)))
     cache.set('filtered_restaurants_df', filtered_restaurants_df)
 
     # retrieve the restaurant location coordinates.
@@ -126,7 +129,7 @@ def search_button_clicked():
     # retrieve the dataframe about the current restaurant pool
     restaurants_df = get_initial_restaurants(center=center,
                                              search_radius=search_radius,
-                                             mock=mock,
+                                             mock=True,
                                              datapath=path_to_data_folder)
     # retrieve the restaurant location coordinates.
     updated_restaurant_coordinates = \
@@ -190,4 +193,3 @@ def find_free_port():
 if __name__ == '__main__':
     port = find_free_port()
     app.run(debug=True, port=port)
-
