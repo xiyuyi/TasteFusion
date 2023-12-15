@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request
+from flask_caching import Cache
 from folium import folium
 import socket
 import os
@@ -14,6 +15,7 @@ from tastefusion.utils.update_tastes import generate_tastes
 path_to_data_folder = os.path.join(os.path.dirname(__file__), 'data')
 
 app = Flask(__name__)
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 
 @app.route('/')
@@ -23,7 +25,7 @@ def index():
 
     # Convert the map to HTML string
     map_html = m._repr_html_()
-    return render_template('index.html', tastes=[' ']*14, map_html=map_html)
+    return render_template('index.html', tastes=[' '] * 14, map_html=map_html)
 
 
 @app.route('/taste-fusion', methods=['POST'])
@@ -47,22 +49,36 @@ def taste_fusion_clicked():
 
     # Separate the taste labels and votes for further processing
     taste_votes = {taste['label']: taste['value'] for taste in tastes_data}
+    print(taste_votes)
+    print(type(taste_votes))
+    restaurants_df = cache.get('restaurants_df')
+    tastes = cache.get('tastes')
+    initial_search = cache.get('initial_search')
+    filtered_restaurants_df = cache.get('filtered_restaurants_df')
 
-    # get current restaurant ids.
-    mock = True
-    curr_ids = []  # todo, should retrieve data from the front end.
-    # update the restaurant ids list based on the current taste votes and the current pool of restaurants.
-    updated_restaurant_ids = update_restaurants(taste_votes=taste_votes,
-                                                current_restaurant_ids=curr_ids,
-                                                mock=mock)
+    if initial_search:
+        current_restaurant_df = restaurants_df
+    else:
+        current_restaurant_df = filtered_restaurants_df
+
+    # update the restaurant dataframe list based on the current taste votes and the current pool of restaurants.
+    filtered_restaurants_df = update_restaurants(taste_votes=taste_votes,
+                                                 current_restaurant_df=current_restaurant_df,
+                                                 mock=False)
+    cache.set('filtered_restaurants_df', filtered_restaurants_df)
+
     # retrieve the restaurant location coordinates.
-    updated_restaurant_coordinates = get_location_coordinates(restaurant_df=updated_restaurant_ids, mock=mock)
+    updated_restaurant_coordinates \
+        = get_location_coordinates(restaurant_df=filtered_restaurants_df,
+                                   mock=False)
 
     # generate the updated map_html from folium
-    map_html = update_map(restaurant_coordinates=updated_restaurant_coordinates, mock=False)
+    map_html \
+        = update_map(restaurant_coordinates=updated_restaurant_coordinates,
+                     mock=False)
 
     # generate extra tastes tags based on the current list of restaurants
-    tastes = generate_tastes(restaurant_df=updated_restaurant_ids, mock=mock)
+    tastes = generate_tastes(restaurant_df=filtered_restaurants_df, mock=False)
 
     # now update the webpage. use only to 14 taste tags
     return jsonify({"tastes": tastes[:14], "map_html": map_html})
@@ -113,7 +129,11 @@ def search_button_clicked():
 
     # generate tastes tags based on the current list of restaurants
     tastes = generate_tastes(restaurant_df=restaurants_df, mock=False)
-    
+
+    cache.set('restaurants_df', restaurants_df)
+    cache.set('tastes', tastes)
+    cache.set('initial_search', True)
+
     # now update the webpage. use only to 14 taste tags
     return jsonify({"tastes": tastes[:14], "map_html": map_html})
 
@@ -122,7 +142,7 @@ def search_button_clicked():
 def address_input():
     # Get the address from the request
     address = request.json.get('address')
-    print('address input: '+address)
+    print('address input: ' + address)
 
     coords = get_coords_from_address_text(address=address, mock=False)
 
@@ -138,8 +158,8 @@ def radius_input():
     # Get the address and the radius from the request
     address = request.json.get('address')
     radius = request.json.get('radius')
-    print('address input: '+address)
-    print('radius input: '+radius+' miles')
+    print('address input: ' + address)
+    print('radius input: ' + radius + ' miles')
 
     coords = get_coords_from_address_text(address=address, mock=False)
 

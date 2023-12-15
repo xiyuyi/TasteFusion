@@ -28,7 +28,7 @@ def update_map(restaurant_coordinates:list = None, mock=False):
     makr the locations with Glyphs, and return the new map_html 
     """
     center = list(np.mean(restaurant_coordinates, axis=0))
-    m = folium.Map(location=center, zoom_start=13)
+    m = folium.Map(location=center, zoom_start=15)
     for coord in restaurant_coordinates:
         folium.Marker(
             location=coord,
